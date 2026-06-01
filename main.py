@@ -5,7 +5,14 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, filters, ContextTypes
 import yt_dlp
 
-COOKIES_FILE = '506011d2-96e6-406b-a0fd-fe565536dc33.txt'
+COOKIES_FILE = None
+if os.environ.get("YOUTUBE_COOKIES"):
+    import atexit
+    _tmp = tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False)
+    _tmp.write(os.environ["YOUTUBE_COOKIES"])
+    _tmp.close()
+    COOKIES_FILE = _tmp.name
+    atexit.register(os.unlink, COOKIES_FILE)
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 URL_REGEX = re.compile(r'https?://(www\.)?(youtube\.com|youtu\.be|instagram\.com|tiktok\.com|facebook\.com|fb\.watch)\S+', re.I)
