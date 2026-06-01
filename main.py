@@ -32,10 +32,10 @@ async def handle(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     with tempfile.TemporaryDirectory() as tmpdir:
         ydl_opts = {
             'outtmpl': f'{tmpdir}/video.%(ext)s',
-            'format': 'bestvideo[ext=mp4][filesize<50M]+bestaudio[ext=m4a]/best[ext=mp4][filesize<50M]/best',
-            'merge_output_format': 'mp4',
+            'format': 'best[ext=mp4][filesize<50M]/best[filesize<50M]/best',
             'noplaylist': True,
             'quiet': True,
+            'extractor_args': {'youtube': {'player_client': ['android']}},
             **({"cookiefile": COOKIES_FILE} if COOKIES_FILE else {}),
         }
         try:
