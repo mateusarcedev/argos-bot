@@ -4,12 +4,13 @@ Bot do Telegram para baixar vídeos do YouTube, Instagram, TikTok e Facebook.
 
 ## Requisitos
 
-- Node.js 18+
+- Python 3.11+
+- ffmpeg
 
 ## Instalação
 
 ```bash
-npm install
+pip install -r requirements.txt
 cp .env.example .env
 # Edite .env e adicione seu BOT_TOKEN
 ```
@@ -17,7 +18,7 @@ cp .env.example .env
 ## Uso
 
 ```bash
-node index.js
+python main.py
 ```
 
 Envie um link de vídeo no chat do bot e ele retornará o vídeo baixado.
