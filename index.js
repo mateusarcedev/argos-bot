@@ -15,16 +15,6 @@ bot.onText(/\/start/, (msg) => {
   );
 });
 
-bot.onText(/\/ffmpeg/, (msg) => {
-  const { execSync } = require('child_process');
-  try {
-    const path = execSync('which ffmpeg || find /app -name ffmpeg 2>/dev/null | head -1').toString().trim();
-    bot.sendMessage(msg.chat.id, `ffmpeg: ${path || 'não encontrado'}`);
-  } catch (e) {
-    bot.sendMessage(msg.chat.id, `erro: ${e.message}`);
-  }
-});
-
 
 bot.on('message', async (msg) => {
   const url = (msg.text || '').match(URL_REGEX)?.[0];
