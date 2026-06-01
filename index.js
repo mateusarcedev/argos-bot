@@ -15,6 +15,7 @@ bot.onText(/\/start/, (msg) => {
   );
 });
 
+
 bot.on('message', async (msg) => {
   const url = (msg.text || '').match(URL_REGEX)?.[0];
   if (!url) return;
@@ -23,21 +24,23 @@ bot.on('message', async (msg) => {
   const tmpFile = path.join(os.tmpdir(), `argos_${Date.now()}.mp4`);
 
   const status = await bot.sendMessage(chatId, '⏳ Baixando...');
+  let outFile;
 
   try {
-    await youtubedl(url, {
+    const result = await youtubedl(url, {
       output: tmpFile,
-      format: 'bestvideo[ext=mp4][filesize<50M]+bestaudio[ext=m4a]/best[ext=mp4][filesize<50M]/best',
-      mergeOutputFormat: 'mp4',
+      format: 'best[ext=mp4][filesize<50M]/best[filesize<50M]/best',
       noPlaylist: true,
+      print: 'after_move:filepath',
     });
 
-    await bot.sendVideo(chatId, tmpFile, {}, { filename: 'video.mp4', contentType: 'video/mp4' });
+    outFile = (result?.stdout || '').trim() || tmpFile;
+    await bot.sendVideo(chatId, outFile, {}, { filename: 'video.mp4', contentType: 'video/mp4' });
   } catch (err) {
     console.error(err);
     await bot.sendMessage(chatId, '❌ Não foi possível baixar o vídeo. Verifique o link e tente novamente.');
   } finally {
-    if (fs.existsSync(tmpFile)) fs.unlinkSync(tmpFile);
+    [tmpFile, outFile].filter(Boolean).forEach(f => { try { if (fs.existsSync(f)) fs.unlinkSync(f); } catch {} });
     bot.deleteMessage(chatId, status.message_id).catch(() => {});
   }
 });
