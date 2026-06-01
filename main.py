@@ -35,7 +35,7 @@ async def handle(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
             'format': 'best[ext=mp4][filesize<50M]/best[filesize<50M]/best',
             'noplaylist': True,
             'quiet': True,
-            'extractor_args': {'youtube': {'player_client': ['android']}},
+            'extractor_args': {'youtube': {'player_client': ['tv_embedded']}},
             **({"cookiefile": COOKIES_FILE} if COOKIES_FILE else {}),
         }
         try:
