@@ -1,6 +1,6 @@
 require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
-const youtubedl = require('youtube-dl-exec').create('/app/bin/yt-dlp');
+const youtubedl = require('youtube-dl-exec').create(process.env.YTDLP_PATH || '/app/bin/yt-dlp');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
