@@ -1,9 +1,19 @@
 require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
-const youtubedl = require('youtube-dl-exec').create(process.env.YTDLP_PATH || '/app/bin/yt-dlp');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { execSync } = require('child_process');
+
+const YTDLP_PATH = process.env.YTDLP_PATH || '/tmp/yt-dlp';
+
+if (!fs.existsSync(YTDLP_PATH)) {
+  console.log('Downloading yt-dlp...');
+  execSync(`curl -fL --retry 3 https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ${YTDLP_PATH} && chmod +x ${YTDLP_PATH}`);
+  console.log('yt-dlp ready.');
+}
+
+const youtubedl = require('youtube-dl-exec').create(YTDLP_PATH);
 
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
