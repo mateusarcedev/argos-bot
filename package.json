@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "heroku-postbuild": "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /app/bin/yt-dlp && chmod +x /app/bin/yt-dlp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
