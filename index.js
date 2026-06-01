@@ -32,7 +32,7 @@ bot.on('message', async (msg) => {
       format: 'bestvideo[ext=mp4][filesize<50M]+bestaudio[ext=m4a]/best[ext=mp4][filesize<50M]/best',
       mergeOutputFormat: 'mp4',
       noPlaylist: true,
-      ffmpegLocation: process.env.FFMPEG_PATH || '/app/vendor/ffmpeg',
+      ffmpegLocation: process.env.FFMPEG_PATH || process.env.FFMPEG_BINARY || 'ffmpeg',
       print: 'after_move:filepath',
     });
 
